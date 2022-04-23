@@ -5,38 +5,14 @@
 }
 
 body{
-    font-family: 'Times New Roman', Times, serif;
+    font-family: Arial, Helvetica, sans-serif;
 }
 
-.input{
+.header{ 
+    background-image: linear-gradient(to right, rgb(89, 141, 253), rgb(0, 0, 212));
     text-align: center;
-    margin: 100px 0;
+    color: white;
 }
 
-input[type="text"]{
-    height: 50px;
-    width: 600px;
-    background: #e7e7e7;
-    font-family: 'Times New Roman', Times, serif;
-    font-weight: bold;
-    font-size: 20px;
-    border: none;
-    border-radius: 2px;
-    padding: 10px 10px;
-}
 
-input[type="submit"]{
-    height: 50px;
-    width: 100px;
-    background: #e7e7e7;
-    font-family: 'Times New Roman', Times, serif;
-    font-weight: bold;
-    font-size: 20px;
-    border: none;
-    border-radius: 2px;
-}
 
-.display {
-    text-align:center;
-    
-}

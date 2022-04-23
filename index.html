@@ -4,25 +4,64 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <title>Weather</title>
+    <title>Weather Dashboard</title>
+    
+    <!--Styling links-->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/css/bootstrap.min.css" />
     <link rel="stylesheet" href="assets/style.css" />
+  
   </head>
 
   <body>
-    <header>
-        <h1>Weather Dashboard</h1>
-    </header>
+    <nav class= "header p-3">
+        <h1 class= "center">Weather Dashboard</h1>
+    </nav>
 
-    <div class="input">
-        <input type="text" class="inputValue" placeholder="Enter a city">
-        <input type="submit" value="Submit" class="button">
-    </div>
+    <div class="container">
+      <div class="row">
+        <div class="col-12 col-md-4 col-lg-3">
+          <div class="card">
+            <h3 class="cardHeader">Enter a City</h3>
+            <form id="citySearch" class="searchForm"
+              <input class="input my-2" name="cityName" id="cityName" type="text" />
+              <button type="submit" class="btn btnInfo">Search</button>
+            </form>
+          </div>
+        
+          <div id="searchHistory" class="card">
+            <h4 class="searchHeader">Previous Searches</h3>
 
-    <div class="display">
-        <h1 class="name"></h1>
-        <p class="discr"></p>
-        <p class="temp"></p>
-    </div>
-<script src="assets/script.js"></script>
+            <!-- Blank section to hold previous searchs -->
+            <div class="searchForm d-inline-flex flex-wrap">
+                
+          </div>
+        </div>
+      </div>
+
+          <!-- Forecast section -->
+           <div class="cold-12 col-md-8 col-lg-9">
+                    
+           <!-- Current Forecast Container -->          
+            <div class="card" id="currentForecast">
+                  <h3 class="cardHeader"></h3>
+                <div class="cardBody">
+                 <ul id="weatherConditions">
+        
+                </ul>
+                </div>
+            </div>
+            <h4 class="p-2 mt-3" id="fiveDay">5-Day Forecast</h4>
+                    
+           <!-- Blank section to hold current weather tabs -->
+            <div class="d-inline-flex flex-wrap p-2" id="daily-forecast">
+                        
+          </div>
+       </div>  
+     </div>
+   </div>
+
+  
+    <script src="assets/script.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
   </body>
   </html>
