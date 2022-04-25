@@ -1,11 +1,14 @@
 const cityNameInput = document.querySelector("#cityName");
-const searchForm = document.querySelector("#searchForm");
+const searchForm = document.querySelector("#citySearch");
 const currentForecastUl = document.querySelector("#currentForecast #weatherConditions");
 const currentForecastH3 = document.querySelector("#currentForecast h3");
 const searchHistory = document.querySelector("#searchHistory");
 const searchHistoryContainer = document.querySelector("#searchHistory .cardBody");
 const dailyForecastContainer = document.querySelector("#dailyForecast");
 const fiveDay = document.querySelector("#fiveDay");
+
+const apiKey = "b06c8666b0489ca67a5e17b0b7bfba15";
+
 
 // Use local storage to save previous searches
 //let searchHistory = JSON.parse(localStorage.getItem("searches"));
@@ -14,7 +17,7 @@ const localCityArray = [];
 
 const callOpenWeatherApi = (city) => {
     // Creates URL for initial API call to retrieve latitude and longitude of requested city
-    const citySearch = "https://api.openweathermap.org/data/2.5/weather?q=" + city + "&units=imperial&appid=b06c8666b0489ca67a5e17b0b7bfba15";
+    const citySearch = `https://api.openweathermap.org/data/2.5/weather?q=${city}&units=imperial&appid=${apiKey}`;;
 
     // Initial fetch to retrieve lat + lng
     fetch(citySearch)
@@ -26,7 +29,7 @@ const callOpenWeatherApi = (city) => {
             const errorText = document.createElement("li");
             errorText.textContent = "City not found.";
             currentForecastUl.appendChild(errorText);
-            dailyForecastContainer.innerHTML = "";
+           // dailyForecastContainer.classList.add("hidden"); 
             fiveDay.classList.add("hidden");
         } else {
             // Converts API response into json object
@@ -34,14 +37,13 @@ const callOpenWeatherApi = (city) => {
         .then(function (data) {
             // Pulls city name into variable for later
             const cityName = data.name;
-        });
-    }
-    })
-}
+        
 
+            let lat = 40.7608;
+            let lon = -111.8911;  
     // Creates URL for oneCall OpenWeather API from latitude and longitude of previous OpenWeather call
-    const createOcUrl = "https://api.openweathermap.org/data/2.5/onecall?lat=21.44&lon=-75.04&appid=b06c8666b0489ca67a5e17b0b7bfba15";
-            
+    const createOcUrl = `https://api.openweathermap.org/data/2.5/uvi?lat=${lat}&lon=${lon}&appid=${apiKey}`;
+    
     // Fetch to retrive current and daily weather info
     fetch(createOcUrl)
     .then(function (response) {
@@ -50,7 +52,7 @@ const callOpenWeatherApi = (city) => {
             response.json()
     .then(function (data) {
         // Creates icon to display current weather status
-        const icon = ("<img src='https://openweathermap.org/img/w/" + data.current.weather[0].icon + ".png' alt='Weather icon'>");
+        const icon = "https://openweathermap.org/img/w/" + response.weather[1].icon + ".png";;
 
         // Displays city name and weather icon
         currentForecastH3.innerHTML = cityName + icon;
@@ -104,7 +106,7 @@ const callOpenWeatherApi = (city) => {
               dailyDiv.innerHTML = `
              <div class="p-2 m-2 card bg-info text-white">
                   <ul id="conditions">
-                        <li><img src='https://openweathermap.org/img/w/${data.daily[i].weather[0].icon}.png' alt="Weather icon" class="mx-auto"></li>
+                        <li><img src='https://openweathermap.org/img/w/" =${data.daily[i].weather[0].icon} +".png' alt="Weather icon" class="mx-auto"></li>
                      <li>Temp: ${Math.floor(data.daily[i].temp.day)} &deg;F</li>
                      <li>Humidity: ${data.daily[i].humidity}%</li>
                   </ul>
@@ -124,11 +126,15 @@ const callOpenWeatherApi = (city) => {
              updateLocalStorage(cityName);
           })
         }
-    });
+    })
+        })
+        }
+    })
+}
   
 
 
-    searchForm.addEventListener("submit", (event) => {
+    searchForm.addEventListener('submit', (event) => {
         event.preventDefault();
     
          // Removes white space from both ends of search term
@@ -149,3 +155,34 @@ const callOpenWeatherApi = (city) => {
      }
     });
   
+    const updateSearchHistory = () => {
+        // Pulls localStorage results of previous searches
+        previousSearch = JSON.parse(localStorage.getItem("searches"));
+    
+        // Declared under function to ensure list is updated each time
+        const existingButtons = document.querySelectorAll("#previous-searches button");
+    
+        if (previousSearch !== null) {
+            existingButtons.forEach(button => {
+                // Ensures buttons aren't repeated for existing searches
+                for (let i = 0; i < previousSearch.length; i++)
+                if (button.dataset.city.includes(previousSearch[i])) {
+                    previousSearch.splice(i, i + 1);
+                }
+            })
+            for (let i = 0; i < previousSearch.length; i++) {
+                const searchButton = document.createElement("button");
+                searchButton.classList.add("m-2", "btn", "btn-light");
+                // Sets data-city attribute on button for event listener to reference
+                searchButton.dataset.city = previousSearch[i];
+                searchButton.textContent = previousSearch[i];
+                searchButton.addEventListener("click", (event) => {
+                    // References data-city property to call API
+                    callOpenWeather(event.target.dataset.city);
+                })
+                searchHistoryContainer.appendChild(searchButton); 
+            }
+        }
+    }
+
+    callOpenWeatherApi();
