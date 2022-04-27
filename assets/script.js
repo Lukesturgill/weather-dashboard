@@ -15,6 +15,27 @@ const apiKey = "b06c8666b0489ca67a5e17b0b7bfba15";
 
 const localCityArray = []; 
 
+searchForm.addEventListener('submit', (event) => {
+    event.preventDefault();
+
+     // Removes white space from both ends of search term
+ let searchValue = cityNameInput.value.trim("");
+
+ // Handler if user submits form with blank field
+ if (searchValue === "") {
+currentForecastH3.textContent = "Please enter a city!";
+currentForecastUl.innerHTML = "";
+dailyForecastContainer.innerHTML = "";
+// Hides 5-day forecast if API won't be called
+//fiveDay.classList.add("hidden");
+ } else {
+// Calls API to fetch provided value
+callOpenWeatherApi(searchValue);
+// Clears text in input
+cityNameInput.value = "";
+ }
+});
+
 const callOpenWeatherApi = (city) => {
     // Creates URL for initial API call to retrieve latitude and longitude of requested city
     const citySearch = `https://api.openweathermap.org/data/2.5/weather?q=${city}&units=imperial&appid=${apiKey}`;
@@ -30,7 +51,7 @@ const callOpenWeatherApi = (city) => {
             errorText.textContent = "City not found.";
             currentForecastUl.appendChild(errorText);
            // dailyForecastContainer.classList.add("hidden"); 
-            fiveDay.classList.add("hidden");
+           //fiveDay.classList.remove("hidden");
         } else {
             // Converts API response into json object
             response.json()
@@ -117,7 +138,7 @@ const callOpenWeatherApi = (city) => {
                dailyWeatherArray.push(dailyDiv);
          }
           // Removes .hidden class to now display in case previous search resulted in error
-             fiveDay.classList.remove("hidden");
+          fiveDay.classList.remove("hidden");
 
            // Appends cards stored in dailyWeatherArray to container
              dailyWeatherArray.forEach(card => {
@@ -134,34 +155,28 @@ const callOpenWeatherApi = (city) => {
 }
   
 
+const updateLocalStorage = (city) => {
+    // Ensures searched city isn't pushed into array (and then localStorage) if city has already been searched
+    if (localCityArray.includes(city)) {
+        return;
+    } else {
+        localCityArray.push(city);
 
-    searchForm.addEventListener('submit', (event) => {
-        event.preventDefault();
-    
-         // Removes white space from both ends of search term
-     let searchValue = cityNameInput.value.trim("");
-
-     // Handler if user submits form with blank field
-     if (searchValue === "") {
-    currentForecastH3.textContent = "Please enter a city!";
-    currentForecastUl.innerHTML = "";
-    dailyForecastContainer.innerHTML = "";
-    // Hides 5-day forecast if API won't be called
-    fiveDay.classList.add("hidden");
-     } else {
-    // Calls API to fetch provided value
-    callOpenWeatherApi(searchValue);
-    // Clears text in input
-    cityNameInput.value = "";
-     }
-    });
+        // Stores for next user visit
+        localStorage.setItem("searches", JSON.stringify(localCityArray));
+        
+        // Calls updateSearchHistory to add new search to previous search buttons
+        updateSearchHistory();
+    }
+}
+   
   
-    const updateSearchHistory = () => {
+    function(updateSearchHistory){
         // Pulls localStorage results of previous searches
-        previousSearch = JSON.parse(localStorage.getItem("searches"));
+       previousSearch = JSON.parse(localStorage.getItem("searches"));
     
         // Declared under function to ensure list is updated each time
-        const existingButtons = document.querySelectorAll("#previous-searches button");
+        const existingButtons = document.querySelectorAll("#previousSearches button");
     
         if (previousSearch !== null) {
             existingButtons.forEach(button => {
@@ -187,3 +202,4 @@ const callOpenWeatherApi = (city) => {
     }
 
     //callOpenWeatherApi();
+    updateSearchHistory();
