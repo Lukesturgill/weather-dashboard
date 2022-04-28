@@ -171,9 +171,9 @@ const updateLocalStorage = (city) => {
 }
    
   
-    function(updateSearchHistory){
+    const updateSearchHistory = (updateSearchHistory) => {
         // Pulls localStorage results of previous searches
-       previousSearch = JSON.parse(localStorage.getItem("searches"));
+      let previousSearch = JSON.parse(localStorage.getItem("searches"));
     
         // Declared under function to ensure list is updated each time
         const existingButtons = document.querySelectorAll("#previousSearches button");
@@ -194,12 +194,12 @@ const updateLocalStorage = (city) => {
                 searchButton.textContent = previousSearch[i];
                 searchButton.addEventListener("click", (event) => {
                     // References data-city property to call API
-                    callOpenWeather(event.target.dataset.city);
+                    callOpenWeatherApi(event.target.dataset.city);
                 })
-                searchHistoryContainer.appendChild(searchButton); 
+                searchHistory.appendChild(searchButton); 
             }
         }
     }
 
-    //callOpenWeatherApi();
+    callOpenWeatherApi();
     updateSearchHistory();
