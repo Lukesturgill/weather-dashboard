@@ -46,22 +46,22 @@ const callOpenWeatherApi = (city) => {
         // Handler if city is not found
         if (!response.ok) {
             currentForecastUl.innerHTML = "";
-            currentForecastH3.textContent = "Try again.";
+            currentForecastH3.textContent = "";
             const errorText = document.createElement("li");
-            errorText.textContent = "City not found.";
+            errorText.textContent = "";
             currentForecastUl.appendChild(errorText);
-           // dailyForecastContainer.classList.add("hidden"); 
-           //fiveDay.classList.remove("hidden");
+            //dailyForecastContainer.classList.add("hidden"); 
+            //currentForecastH3.classList.add("hidden");
         } else {
             // Converts API response into json object
             response.json()
-        .then(function (data) {
+        .then(function (response) {
             // Pulls city name into variable for later
-            const cityName = data.name;
+            const cityName = response.name;
         
         
-          let lat = data.coord.lat
-          let lon = data.coord.lon
+          let lat = response.coord.lat
+          let lon = response.coord.lon
     // Creates URL for oneCall OpenWeather API from latitude and longitude of previous OpenWeather call
     const createOcUrl = `https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&units=imperial&exclude={part}&appid=${apiKey}`;
     
@@ -73,10 +73,10 @@ const callOpenWeatherApi = (city) => {
             response.json()
     .then(function (response) {
         // Creates icon to display current weather status
-        const icon = `https://openweathermap.org/img/w/${data.weather[0].icon}.png`;
-
+        const icon = `https://openweathermap.org/img/w/${response.current.weather[0].icon}.png`;
+       // `https://openweathermap.org/img/w/${}.png`;
         // Displays city name and weather icon
-        currentForecastH3.innerHTML = cityName + icon;
+        currentForecastH3.innerHTML = cityName + icon + " (" + moment().format("MM/DD/YYYY") + ") ";
 
         const listItems = [];
         
@@ -117,8 +117,8 @@ const callOpenWeatherApi = (city) => {
 
          let dailyWeatherArray = [];
 
-         // Clears existing cards for 5-Day Forecast container
-        // dailyForecastContainer.innerHTML = "";
+         // Clear the five day forecast container for new search
+        fiveDay.innerHTML = "";
 
          // Loop to populate cards for next 5 days with information from daily openCall property
             for (let i = 0; i < 5; i++) {
