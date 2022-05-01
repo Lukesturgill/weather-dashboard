@@ -73,7 +73,7 @@ const callOpenWeatherApi = (city) => {
             response.json()
     .then(function (response) {
         // Creates icon to display current weather status
-        const icon = `https://openweathermap.org/img/w/${response.current.weather[0].icon}.png`;
+          const icon = '<img src= `https://.openweathermap.org/img/w/${response.current.weather[0].icon}.png`>';
        // `https://openweathermap.org/img/w/${}.png`;
         // Displays city name and weather icon
         currentForecastH3.innerHTML = cityName + icon + " (" + moment().format("MM/DD/YYYY") + ") ";
@@ -128,7 +128,7 @@ const callOpenWeatherApi = (city) => {
              <div class="p-2 m-2 card bg-info text-white">
              <h5>${moment().add(i + 1, "days").format("MM/DD/YYYY")}</h5>
                   <ul id="conditions">
-                        <li><img src= "https://openweathermap.org/img/w/=${response.daily[i].weather[0].icon}.png" alt="Weather icon" class="mx-auto"></li>
+                        <li><img src= "https://api.openweathermap.org/img/w/=${response.daily[i].weather[0].icon}.png" alt="Weather icon" class="mx-auto"></li>
                      <li>Temp: ${Math.floor(response.daily[i].temp.day)} &deg;F</li>
                      <li>Humidity: ${response.daily[i].humidity}%</li>
                   </ul>
