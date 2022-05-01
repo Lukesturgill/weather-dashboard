@@ -50,8 +50,6 @@ const callOpenWeatherApi = (city) => {
             const errorText = document.createElement("li");
             errorText.textContent = "";
             currentForecastUl.appendChild(errorText);
-            //dailyForecastContainer.classList.add("hidden"); 
-            //currentForecastH3.classList.add("hidden");
         } else {
             // Converts API response into json object
             response.json()
@@ -74,8 +72,8 @@ const callOpenWeatherApi = (city) => {
     .then(function (response) {
         // Creates icon to display current weather status
           const icon = '<img src= `https://.openweathermap.org/img/w/${response.current.weather[0].icon}.png`>';
-       // `https://openweathermap.org/img/w/${}.png`;
-        // Displays city name and weather icon
+
+        // Displays city name, date and weather icon
         currentForecastH3.innerHTML = cityName + icon + " (" + moment().format("MM/DD/YYYY") + ") ";
 
         const listItems = [];
