@@ -14,7 +14,7 @@ Users will also be able to access their previous searches with the use of local 
 * OpenWeather API
 
 ## Demo
-![Application screenshot](assets/images/Screen Shot 2022-04-30 at 6.59.54 PM.png)
+![Application screenshot](https://github.com/Lukesturgill/weather-dashboard/blob/main/assets/images/Screen%20Shot%202022-04-30%20at%206.59.54%20PM.png?raw=true)
 
 ## Website
  https://lukesturgill.github.io/weather-dashboard/
